@@ -1,0 +1,99 @@
+body {
+  background-image: url(../images/natureBlurBg.jpg);
+  background-attachment: fixed;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+.header {
+  position: sticky;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  transition: height 200ms linear;
+}
+
+.wrap {
+  height: 100px;
+  // background-color: rgba(151, 160, 51, 0.525);
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  height: 44px;
+  width: 556px;
+
+  padding: 0 20px;
+
+  border-bottom-left-radius: 15px;
+  border-top-left-radius: 15px;
+  border: 2px solid grey;
+  border-right: none;
+
+  outline: none;
+  background-color: rgb(255, 255, 255);
+  transition: border-bottom-left-radius 250ms linear,
+    border-top-left-radius 250ms linear;
+}
+
+.button {
+  height: 44px;
+  width: 44px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  outline: none;
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
+  border: 2px solid grey;
+  border-left: none;
+
+  background-color: rgb(255, 255, 255);
+  color: grey;
+
+  transition: border-bottom-right-radius 250ms linear,
+    border-top-right-radius 250ms linear;
+}
+
+.button:hover,
+.button:focus {
+  color: rgb(3, 82, 116);
+}
+
+.button__icon {
+  fill: currentColor;
+}
+
+.input:focus + .button {
+  border-bottom-right-radius: 7px;
+  border-top-right-radius: 7px;
+  border-color: rgb(6, 121, 170);
+}
+
+.input:focus {
+  border-bottom-left-radius: 7px;
+  border-top-left-radius: 7px;
+  border-color: rgb(6, 121, 170);
+}
+
+.main {
+}
+
+.container {
+}
+.gallery {
+}
+.photo-card {
+}
+.info {
+}
+.info-item {
+}
