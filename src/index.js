@@ -1,6 +1,8 @@
 import './sass/index.scss';
 import getRefs from './js/get-refs';
 import fetchImages from './js/fetch-images';
+import { notifySuccess } from './js/notify';
+import photoCardTpl from './templates/photo-card.hbs';
 
 const refs = getRefs();
 
@@ -13,7 +15,17 @@ async function onSubmit(e) {
   wrapHeader();
 
   const data = await fetchImages(query, page);
-  console.log(data);
+  const totalHits = data.totalHits;
+  const photos = data.hits;
+
+  notifySuccess(totalHits);
+  renderPhotoCards(photos);
+  console.log(photos);
+}
+
+function renderPhotoCards(photos) {
+  const photosCardMarkup = photoCardTpl(photos);
+  refs.gallery.innerHTML = photosCardMarkup;
 }
 
 //======================header animation================

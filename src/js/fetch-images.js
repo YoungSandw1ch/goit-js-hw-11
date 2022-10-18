@@ -8,7 +8,8 @@ const SEARCH_DETAILS =
 export default async function fetchImages(query, page) {
   const URL = `${BASE_URL}/?key=${KEY}&q=${query}${SEARCH_DETAILS}&page=${page}`;
   try {
-    return await axios.get(URL);
+    const response = await axios.get(URL);
+    return await response.data;
   } catch (error) {
     console.log('Error status: ', error.status);
   }
