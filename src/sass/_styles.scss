@@ -39,7 +39,7 @@ body {
   outline: none;
   background-color: rgb(255, 255, 255);
   transition: border-bottom-left-radius 250ms linear,
-    border-top-left-radius 250ms linear;
+    border-top-left-radius 250ms linear, height 250ms linear;
 }
 
 .button {
@@ -60,7 +60,7 @@ body {
   color: grey;
 
   transition: border-bottom-right-radius 250ms linear,
-    border-top-right-radius 250ms linear;
+    border-top-right-radius 250ms linear, height 250ms linear;
 }
 
 .button:hover,
@@ -75,13 +75,15 @@ body {
 .input:focus + .button {
   border-bottom-right-radius: 7px;
   border-top-right-radius: 7px;
-  border-color: rgb(6, 121, 170);
+  border-color: rgb(3, 82, 116);
+  height: 50px;
 }
 
 .input:focus {
   border-bottom-left-radius: 7px;
   border-top-left-radius: 7px;
-  border-color: rgb(6, 121, 170);
+  border-color: rgb(3, 82, 116);
+  height: 50px;
 }
 
 .main {
