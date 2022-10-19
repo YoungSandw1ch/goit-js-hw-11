@@ -20,6 +20,7 @@ async function onSubmit(e) {
 
   notifySuccess(totalHits);
   renderPhotoCards(photos);
+
   console.log(photos);
 }
 
