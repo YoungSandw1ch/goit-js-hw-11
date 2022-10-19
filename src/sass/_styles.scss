@@ -10,7 +10,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+
   height: 100vh;
+
+  margin-bottom: 30px;
 
   transition: height 200ms linear;
 }
@@ -90,12 +93,8 @@ body {
 }
 
 .container {
-}
-.gallery {
-}
-.photo-card {
-}
-.info {
-}
-.info-item {
+  // width: 1030px;
+  padding-left: 15px;
+  padding-right: 15px;
+  // margin: 0 auto;
 }
