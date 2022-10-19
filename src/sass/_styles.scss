@@ -5,6 +5,19 @@ body {
   min-height: 100vh;
 }
 
+img {
+  max-width: 100%;
+  display: block;
+  height: auto;
+}
+
+p,
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
 .header {
   position: sticky;
   display: flex;
@@ -13,13 +26,13 @@ body {
 
   height: 100vh;
 
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 
   transition: height 200ms linear;
 }
 
 .wrap {
-  height: 100px;
+  height: 80px;
   // background-color: rgba(151, 160, 51, 0.525);
 }
 

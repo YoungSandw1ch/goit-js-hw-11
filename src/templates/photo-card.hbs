@@ -1,6 +1,8 @@
 {{#each this}}
   <div class='photo-card'>
-    <img class='photo' src='{{webformatURL}}' alt='{{tags}}' loading='lazy' />
+    <div class='photo-box'>
+      <img class='photo' src='{{webformatURL}}' alt='{{tags}}' loading='lazy' />
+    </div>
     <div class='info'>
       <p class='info-item'>
         <b>Likes</b>{{likes}}
