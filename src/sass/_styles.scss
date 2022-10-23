@@ -22,6 +22,7 @@ h3 {
 
 .header {
   position: sticky;
+  top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,11 +31,13 @@ h3 {
 
   margin-bottom: 20px;
 
-  transition: height 200ms linear;
+  transition: height 250ms linear, background-color 250ms linear;
 }
 
 .wrap {
   height: 80px;
+  background-color: #cfb98c;
+  z-index: 100;
 }
 
 .search-form {
