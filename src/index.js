@@ -11,15 +11,13 @@ const refs = getRefs();
 const THROTTLE_TIME = 250;
 let page = 1;
 let query = '';
+const options = {};
+const infiniteObserver = new IntersectionObserver(callback, options);
 
-refs.form.addEventListener('submit', onSubmit);
+refs.form.addEventListener('submit', throttle(onSubmit, THROTTLE_TIME));
 
 async function onSubmit(e) {
   e.preventDefault();
-  window.removeEventListener(
-    'scroll',
-    throttle(onScrollGallery, THROTTLE_TIME)
-  );
   clearGallery();
 
   query = e.currentTarget.elements.searchQuery.value;
@@ -29,8 +27,6 @@ async function onSubmit(e) {
   const data = await fetchImages(query, page);
   const totalHits = data.totalHits;
   const photos = data.hits;
-
-  console.log(data);
 
   if (!photos.length) {
     notifyFailure();
@@ -43,28 +39,27 @@ async function onSubmit(e) {
   notifySuccess(totalHits);
   simplelightbox();
 
-  window.addEventListener('scroll', throttle(onScrollGallery, THROTTLE_TIME));
+  createObserve();
 }
 
-function onScrollGallery(query, page) {
-  const bodyRect = document.body.getBoundingClientRect();
-  const documentHeight = document.documentElement.clientHeight;
-
-  if (bodyRect.bottom < documentHeight + 200) {
-    console.log('done');
-    page += 1;
-    fetchImages(query, page).then(data => {
-      renderPhotoCards(data.hits);
-      console.log(data.hits);
-      return data;
-    });
-  }
-}
-
-async function searchImage(query, page) {
+async function loadMorePhoto(query, page) {
   const data = await fetchImages(query, page);
   const photos = data.hits;
-  return photos;
+  renderPhotoCards(photos);
+  createObserve();
+}
+
+function createObserve() {
+  const lastPhoto = document.querySelector('.photo-link:last-child');
+  infiniteObserver?.observe(lastPhoto);
+}
+
+function callback([entry], observer) {
+  if (!entry.isIntersecting) return;
+  page += 1;
+
+  observer.unobserve(entry.target);
+  loadMorePhoto(query, page);
 }
 
 function renderPhotoCards(photos) {
@@ -79,19 +74,6 @@ function simplelightbox() {
 function clearGallery() {
   refs.gallery.innerHTML = '';
 }
-
-// function infiniteScroll() {
-//   const options = {
-//     path: () => {
-//       page += 1;
-//       return
-//     },
-//     append: '.photo-link',
-//     history: false,
-//   };
-
-//   let infScroll = new InfiniteScroll(refs.gallery, options);
-// }
 
 //======================header animation================
 function wrapHeader() {
