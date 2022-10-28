@@ -4,16 +4,18 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import throttle from 'lodash.throttle';
 import getRefs from './js/get-refs';
 import fetchImages from './js/fetch-images';
-import { notifySuccess, notifyFailure } from './js/notify';
+import { notifySuccess, notifyFailure, notifyWarning } from './js/notify';
 import photoCardTpl from './templates/photo-card.hbs';
+import { renderSpinner, showSpinner, hideSpinner } from './js/spinner';
 
 const refs = getRefs();
 const THROTTLE_TIME = 250;
 let page = 1;
+let gallery = '';
 let query = '';
-const options = {};
-const infiniteObserver = new IntersectionObserver(callback, options);
+const options = { threshold: 0.2 };
 
+const infiniteObserver = new IntersectionObserver(infiniteLoadMore, options);
 refs.form.addEventListener('submit', throttle(onSubmit, THROTTLE_TIME));
 
 async function onSubmit(e) {
@@ -21,7 +23,11 @@ async function onSubmit(e) {
   clearGallery();
 
   query = e.currentTarget.elements.searchQuery.value;
-  if (!query.trim()) return;
+  if (!query.trim()) {
+    openHeader();
+    notifyWarning();
+    return;
+  }
 
   page = 1;
   const data = await fetchImages(query, page);
@@ -33,33 +39,61 @@ async function onSubmit(e) {
     return;
   }
 
+  //TODO: make spinner search button==============
+
   wrapHeader();
   clearGallery();
   renderPhotoCards(photos);
   notifySuccess(totalHits);
+  resetForm();
+  createObserver();
+  if (gallery) {
+    gallery.refresh();
+    return;
+  }
   simplelightbox();
-
-  createObserve();
 }
 
-async function loadMorePhoto(query, page) {
-  const data = await fetchImages(query, page);
-  const photos = data.hits;
-  renderPhotoCards(photos);
-  createObserve();
-}
-
-function createObserve() {
-  const lastPhoto = document.querySelector('.photo-link:last-child');
-  infiniteObserver?.observe(lastPhoto);
-}
-
-function callback([entry], observer) {
+function infiniteLoadMore([entry], observer) {
   if (!entry.isIntersecting) return;
   page += 1;
 
   observer.unobserve(entry.target);
   loadMorePhoto(query, page);
+}
+
+async function loadMorePhoto(query, page) {
+  //TODO: make spinner on bottom==============
+  renderSpinner();
+  showSpinner();
+
+  const data = await fetchImages(query, page);
+  const photos = data?.hits;
+
+  if (!data || !photos.length) {
+    hideSpinner();
+    return;
+  }
+
+  renderPhotoCards(photos);
+  hideSpinner();
+  //====smooth scroll====================
+  const { height: cardHeight } =
+    refs.gallery.firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
+  //=====================================
+
+  gallery.refresh();
+  createObserver();
+}
+
+function createObserver() {
+  const lastPhoto = document.querySelector('.photo-link:last-child');
+  infiniteObserver?.observe(lastPhoto);
 }
 
 function renderPhotoCards(photos) {
@@ -68,14 +102,17 @@ function renderPhotoCards(photos) {
 }
 
 function simplelightbox() {
-  let gallery = new SimpleLightbox('.gallery a');
+  gallery = new SimpleLightbox('.gallery a');
 }
 
 function clearGallery() {
   refs.gallery.innerHTML = '';
 }
 
-//======================header animation================
+function resetForm() {
+  refs.form.reset();
+}
+
 function wrapHeader() {
   refs.header.classList.add('wrap');
 }

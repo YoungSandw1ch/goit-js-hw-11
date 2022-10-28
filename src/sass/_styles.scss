@@ -106,12 +106,19 @@ h3 {
   height: 50px;
 }
 
-.main {
-}
-
 .container {
   // width: 1030px;
   padding-left: 15px;
   padding-right: 15px;
   // margin: 0 auto;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.js-hide {
+  display: none;
 }

@@ -14,3 +14,9 @@ export function notifyFailure() {
     }
   );
 }
+
+export function notifyWarning() {
+  Notify.warning('Please type your search query.', {
+    position: 'center-top',
+  });
+}
