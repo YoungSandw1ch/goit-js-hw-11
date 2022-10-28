@@ -24,6 +24,7 @@ h3 {
   position: sticky;
   top: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
@@ -38,6 +39,32 @@ h3 {
   height: 80px;
   background-color: #cfb98c;
   z-index: 100;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.logo {
+  font-family: 'Product Sans', sans-serif;
+  font-size: 120px;
+  background: linear-gradient(
+    to right,
+    #4c8bf5 13.2%,
+    #de5246 13.2% 27%,
+    #ffce42 27% 40%,
+    #4c8bf5 40% 50%,
+    #1aa260 50% 62.5%,
+    #ffce44 62.5% 76%,
+    #de5246 76% 90%,
+    #1aa260 87.5% 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #0b2349;
+}
+
+.logo-wraped {
+  font-size: 60px;
+  margin-right: 50px;
 }
 
 .search-form {
@@ -50,6 +77,7 @@ h3 {
   width: 556px;
 
   padding: 0 20px;
+  margin: 20px 0;
 
   border-bottom-left-radius: 15px;
   border-top-left-radius: 15px;
@@ -59,7 +87,8 @@ h3 {
   outline: none;
   background-color: rgb(255, 255, 255);
   transition: border-bottom-left-radius 250ms linear,
-    border-top-left-radius 250ms linear, height 250ms linear;
+    border-top-left-radius 250ms linear, height 250ms linear,
+    margin 250ms linear;
 }
 
 .button {
@@ -104,6 +133,8 @@ h3 {
   border-top-left-radius: 7px;
   border-color: rgb(3, 82, 116);
   height: 50px;
+
+  margin: 17px 0;
 }
 
 .container {

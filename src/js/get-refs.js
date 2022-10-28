@@ -5,5 +5,6 @@ export default function getRefs() {
     header: document.querySelector('.header'),
     gallery: document.querySelector('.gallery'),
     input: document.querySelector('.input'),
+    logo: document.querySelector('.logo'),
   };
 }

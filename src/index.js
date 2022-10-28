@@ -108,10 +108,12 @@ function resetForm() {
 
 function wrapHeader() {
   refs.header.classList.add('wrap');
+  refs.logo.classList.add('logo-wraped');
 }
 
 function unwrapHeader() {
   refs.header.classList.remove('wrap');
+  refs.logo.classList.remove('logo-wraped');
 }
 
 function toogleBtnSpinner() {
