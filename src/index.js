@@ -10,10 +10,10 @@ import { renderSpinner, showSpinner, hideSpinner } from './js/spinner';
 
 const refs = getRefs();
 const THROTTLE_TIME = 250;
+const options = { threshold: 0.2 };
 let page = 1;
 let gallery = '';
 let query = '';
-const options = { threshold: 0.2 };
 
 const infiniteObserver = new IntersectionObserver(infiniteLoadMore, options);
 refs.form.addEventListener('submit', throttle(onSubmit, THROTTLE_TIME));
@@ -24,33 +24,36 @@ async function onSubmit(e) {
 
   query = e.currentTarget.elements.searchQuery.value;
   if (!query.trim()) {
-    openHeader();
+    unwrapHeader();
     notifyWarning();
     return;
   }
 
+  toogleBtnSpinner();
   page = 1;
   const data = await fetchImages(query, page);
   const totalHits = data.totalHits;
   const photos = data.hits;
 
   if (!photos.length) {
+    toogleBtnSpinner();
     notifyFailure();
     return;
   }
 
-  //TODO: make spinner search button==============
-
   wrapHeader();
   clearGallery();
   renderPhotoCards(photos);
+  toogleBtnSpinner();
   notifySuccess(totalHits);
   resetForm();
   createObserver();
+
   if (gallery) {
     gallery.refresh();
     return;
   }
+
   simplelightbox();
 }
 
@@ -63,7 +66,6 @@ function infiniteLoadMore([entry], observer) {
 }
 
 async function loadMorePhoto(query, page) {
-  //TODO: make spinner on bottom==============
   renderSpinner();
   showSpinner();
 
@@ -77,16 +79,6 @@ async function loadMorePhoto(query, page) {
 
   renderPhotoCards(photos);
   hideSpinner();
-  //====smooth scroll====================
-  const { height: cardHeight } =
-    refs.gallery.firstElementChild.getBoundingClientRect();
-
-  window.scrollBy({
-    top: cardHeight * 2,
-    behavior: 'smooth',
-  });
-  //=====================================
-
   gallery.refresh();
   createObserver();
 }
@@ -107,6 +99,7 @@ function simplelightbox() {
 
 function clearGallery() {
   refs.gallery.innerHTML = '';
+  refs.input.blur();
 }
 
 function resetForm() {
@@ -117,6 +110,14 @@ function wrapHeader() {
   refs.header.classList.add('wrap');
 }
 
-function openHeader() {
+function unwrapHeader() {
   refs.header.classList.remove('wrap');
+}
+
+function toogleBtnSpinner() {
+  const spinner = document.querySelector('.js-spinner');
+  const svg = document.querySelector('.button__icon');
+
+  spinner.classList.toggle('js-hide');
+  svg.classList.toggle('js-hide');
 }
