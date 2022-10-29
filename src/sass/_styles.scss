@@ -32,7 +32,8 @@ h3 {
 
   margin-bottom: 20px;
 
-  transition: height 250ms linear, background-color 250ms linear;
+  transition: height 250ms linear, background-color 250ms linear,
+    flex-direction 250ms linear;
 }
 
 .wrap {
